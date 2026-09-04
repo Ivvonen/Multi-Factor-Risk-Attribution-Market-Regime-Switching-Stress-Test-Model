@@ -54,11 +54,11 @@ class FundFactorRiskEngine:
 # --- 2. STREAMLIT INTERFACE & DYNAMIC CONTROL DECK ---
 
 st.set_page_config(page_title="Fund Factor Risk Attribution", layout="wide")
-st.title("🕵️ Multi-Factor Risk Attribution & Regime-Switching Engine")
+st.title("Multi-Factor Risk Attribution & Regime-Switching Engine")
 st.markdown("Decompose active fund performance into systematic factor betas and identify volatile market cycles dynamically.")
 
-# 🕹️ Sidebar UI Widgets for Interactive Attributes
-st.sidebar.header("🕹️ Dynamic Portfolio & Macro Controls")
+# Sidebar UI Widgets for Interactive Attributes
+st.sidebar.header("Dynamic Portfolio & Macro Controls")
 
 # Input 1: Change Data Timeline
 trading_days = st.sidebar.slider("Historical Lookback Window (Trading Days)", 100, 1000, 500, step=50)
@@ -99,7 +99,7 @@ metrics = engine.calculate_fama_french_attribution()
 regime_labels, crisis_idx = engine.classify_market_regimes(mkt_rf, n_regimes=regime_count)
 
 # --- 5. RENDER DYNAMIC EXECUTIVE KPI RESULTS ---
-st.markdown("### 📊 Live Quantitative Attribution Report Card")
+st.markdown("### Live Quantitative Attribution Report Card")
 col1, col2, col3, col4 = st.columns(4)
 
 col1.metric("Extracted Annualized Alpha", f"{metrics['Alpha (Idiosyncratic Return)']*100:+.2f}%")
@@ -114,7 +114,7 @@ st.progress(metrics['R-Squared (Systematic Fit)'])
 st.markdown("---")
 
 # --- 6. RENDER DYNAMIC PLOTLY REGIME GRAPH ---
-st.subheader("📈 Machine Learning Regime-Switching Factor Mapping")
+st.subheader("Machine Learning Regime-Switching Factor Mapping")
 st.markdown("This scatter plot automatically shifts color zones based on the Gaussian Mixture Model classifying normal vs high-volatility structural cycles.")
 
 # Build interactive plotly grid
@@ -123,7 +123,7 @@ fig = go.Figure()
 # Loop through each classified regime cluster to color-code scatter points
 for regime in range(regime_count):
     mask = (regime_labels == regime)
-    name = "🚨 Crisis / High Volatility State" if regime == crisis_idx else f"🟢 Normal Market Regime (State {regime})"
+    name = "Crisis / High Volatility State" if regime == crisis_idx else f"Normal Market Regime (State {regime})"
     color = '#d62728' if regime == crisis_idx else ['#1f77b4', '#2ca02c'][min(regime, 1)]
     
     fig.add_trace(go.Scatter(
