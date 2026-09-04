@@ -50,19 +50,32 @@ class FundFactorRiskEngine:
         
         return regime_labels, crisis_regime_idx
 
-# --- PLACE INSIDE A NEW USER TAB IN app.py ---
+# --- ENSURE THE ENGINE IS INSTANTIATED BEFORE CALLING METHODS ---
 st.subheader("🕵️ Fund Risk Factor Decomposition & Alpha Isolation")
 st.markdown("Decompose active fund manager performance into systematic factor betas using multi-factor linear regressions.")
 
-# UI triggers to run factor attribution models
 if st.button("Run Fama-French Risk Audit"):
-    # Initialize engine...
+    
+    # 1. GENERATE OR FETCH YOUR DATA VECTORS FIRST (Example structural placeholders)
+    # In production, these should be your real historical returns and factor dataframes
+    np.random.seed(42)
+    mock_fund_returns = np.random.normal(0.0005, 0.01, 252)
+    mock_factors = pd.DataFrame({
+        'Mkt-RF': np.random.normal(0.0004, 0.01, 252),
+        'SMB': np.random.normal(0.0001, 0.005, 252),
+        'HML': np.random.normal(0.0001, 0.005, 252),
+        'RF': np.full(252, 0.0001)
+    })
+    
+    # 2. INSTANTIATE THE ENGINE (This fixes the NameError)
+    engine = FundFactorRiskEngine(fund_returns=mock_fund_returns, factor_dataframe=mock_factors)
+    
+    # 3. NOW CALL THE ENGINE METHODS DYNAMICALLY
     metrics = engine.calculate_fama_french_attribution()
     
-    # Display institutional risk report card
+    # 4. Display institutional risk report card metrics
     st.write(f"**Annualized Fund Alpha:** `{metrics['Alpha (Idiosyncratic Return)']*100:.2f}%`")
     st.write(f"**Systematic Market Beta (β):** `{metrics['Market Beta (Mkt-RF)']:.2f}`")
     st.write(f"**Size Style Tilt (SMB):** `{metrics['Size Exposure (SMB)']:.2f}`")
     st.write(f"**Value Style Tilt (HML):** `{metrics['Value Exposure (HML)']:.2f}`")
     st.progress(metrics['R-Squared (Systematic Fit)'])
-
