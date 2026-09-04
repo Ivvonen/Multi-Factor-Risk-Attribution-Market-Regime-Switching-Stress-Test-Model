@@ -48,3 +48,20 @@ class FundFactorRiskEngine:
         crisis_regime_idx = np.argmax(regime_vols)
         
         return regime_labels, crisis_regime_idx
+
+# --- PLACE INSIDE A NEW USER TAB IN app.py ---
+st.subheader("🕵️ Fund Risk Factor Decomposition & Alpha Isolation")
+st.markdown("Decompose active fund manager performance into systematic factor betas using multi-factor linear regressions.")
+
+# UI triggers to run factor attribution models
+if st.button("Run Fama-French Risk Audit"):
+    # Initialize engine...
+    metrics = engine.calculate_fama_french_attribution()
+    
+    # Display institutional risk report card
+    st.write(f"**Annualized Fund Alpha:** `{metrics['Alpha (Idiosyncratic Return)']*100:.2f}%`")
+    st.write(f"**Systematic Market Beta (β):** `{metrics['Market Beta (Mkt-RF)']:.2f}`")
+    st.write(f"**Size Style Tilt (SMB):** `{metrics['Size Exposure (SMB)']:.2f}`")
+    st.write(f"**Value Style Tilt (HML):** `{metrics['Value Exposure (HML)']:.2f}`")
+    st.progress(metrics['R-Squared (Systematic Fit)'])
+
