@@ -50,8 +50,7 @@ class FundFactorRiskEngine:
         
         return regime_labels, crisis_regime_idx
 
-# --- ENSURE THE ENGINE IS INSTANTIATED BEFORE CALLING METHODS ---
-st.subheader("🕵️ Fund Risk Factor Decomposition & Alpha Isolation")
+st.subheader("Fund Risk Factor Decomposition & Alpha Isolation")
 st.markdown("Decompose active fund manager performance into systematic factor betas using multi-factor linear regressions.")
 
 if st.button("Run Fama-French Risk Audit"):
